@@ -7,7 +7,6 @@ const validateEmail = function(email) {
 };
 
 
-
 // Schema to create a User model (ref: mini-proj)
 const userSchema = new Schema(
   {
@@ -28,20 +27,13 @@ const userSchema = new Schema(
       match: [regex, 'Please fill a valid email address'],
     },
     thoughts: {
-      type: Schema.Types.ObjectId, // array of Id referencing Thought (model)
+      type: Schema.Types.ObjectId, // array of Id referencing to Thought (model)
       ref: 'Thought', // model name
     },
-    endDate: {
-      type: Date,
-      // Sets a default value of 12 weeks from now
-      default: () => new Date(+new Date() + 84 * 24 * 60 * 60 * 1000),
+    friends: {
+      type: Schema.Types.ObjectId, // array of Id referencing to User (model)
+      ref: 'User', // model name
     },
-    students: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Student',
-      },
-    ],
   },
   {
     toJSON: {
@@ -51,6 +43,6 @@ const userSchema = new Schema(
   }
 );
 
-const Course = model('course', courseSchema);
+const User = model('user', userSchema);
 
-module.exports = Course;
+module.exports = User;
