@@ -1,9 +1,12 @@
 const { Schema, model } = require('mongoose'); // this import the mongoose module | to use the Schema | create a model
+const regex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/; // this regex pattern compatible for JS & Perl | RFC 5322
 
 const validateEmail = function(email) {
-  const regex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/; // this regex pattern compatible for JS & Perl | RFC 5322
-  return regex.test(email);
+  regex // using the global variable
+  return regex.test(email); // test(method) to match the string
 };
+
+
 
 // Schema to create a User model (ref: mini-proj)
 const userSchema = new Schema(
@@ -15,9 +18,14 @@ const userSchema = new Schema(
       trim: true, // this will remove whitespace from start .. end
       dropDups: true, // means MongoDB will "drop" any queries which try to create a record with a schema value that already exists in the database. (ref: stackoverflow)
     },
-    inPerson: {
-      type: Boolean,
-      default: true,
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      unique: true,
+      required: 'Email address is required',
+      validate: [validateEmail, 'Please fill a valid email address'],
+      match: [regex, 'Please fill a valid email address'],
     },
     startDate: {
       type: Date,
