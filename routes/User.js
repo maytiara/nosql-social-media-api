@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose'); // this import the mongoose module | to use the Schema | create a model
+const Thought = require('./Thought');
 const regex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/; // this regex pattern compatible for JS & Perl | RFC 5322
 
 const validateEmail = function(email) {
@@ -28,7 +29,7 @@ const userSchema = new Schema(
     },
     thoughts: {
       type: Schema.Types.ObjectId, // array of Id referencing to Thought (model)
-      ref: 'Thought', // model name
+      ref: Thought, // model name
     },
     friends: {
       type: Schema.Types.ObjectId, // array of Id referencing to User (model)
