@@ -1,5 +1,10 @@
 const { Schema, model } = require('mongoose'); // this import the mongoose module | to use the Schema | create a model
 
+const validateEmail = function(email) {
+  const regex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/; // this regex pattern compatible for JS & Perl | RFC 5322
+  return regex.test(email);
+};
+
 // Schema to create a User model (ref: mini-proj)
 const userSchema = new Schema(
   {
@@ -7,7 +12,8 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      trimmed:
+      trim: true, // this will remove whitespace from start .. end
+      dropDups: true, // means MongoDB will "drop" any queries which try to create a record with a schema value that already exists in the database. (ref: stackoverflow)
     },
     inPerson: {
       type: Boolean,
