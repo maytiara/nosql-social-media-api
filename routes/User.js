@@ -15,7 +15,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      trim: true, // this will remove whitespace from start .. end
+      trim: true, // this will remove whitespace from start .. end only
       dropDups: true, // means MongoDB will "drop" any queries which try to create a record with a schema value that already exists in the database. (ref: stackoverflow)
     },
     email: {
@@ -27,9 +27,9 @@ const userSchema = new Schema(
       validate: [validateEmail, 'Please fill a valid email address'],
       match: [regex, 'Please fill a valid email address'],
     },
-    startDate: {
-      type: Date,
-      default: Date.now(),
+    thoughts: {
+      type: Schema.Types.ObjectId, // array of Id referencing Thought (model)
+      ref: 'Thought', // model name
     },
     endDate: {
       type: Date,
