@@ -46,4 +46,13 @@ const userSchema = new Schema(
 
 const User = model('user', userSchema);
 
+// for testing purposes
+const user = new User ({
+  username: "  mdnd  ",
+  email: "testing",
+  thoughts: [],
+  friends: [],
+});
+console.log(user)
+
 module.exports = User;
