@@ -52,7 +52,7 @@ const thoughtSchema = new Schema(
 );
 
 // Virtual property to call the reactionCount and retrieves the length of the reactions array (getter)
-userSchema.virtual('reactionCount').get(function () {
+thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });
 
