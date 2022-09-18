@@ -2,7 +2,6 @@ require('./config/connection'); // MongoDB connection
 const express = require('express'); // express.js
 //const routes = require('./routes'); // API endpoints
 
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
