@@ -1,11 +1,11 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
+const { connect, connection } = require('mongoose');
 
 // Wrap Mongoose around local connection to MongoDB
 // Throwing an error using promise wrapper
 
-// For future reference: Add MONGODB_URI to connect in Atlas (same dotenv guide)
-mongoose.connect(process.env.MONGODB_URL, {
+// For future reference: Add MONGODB_URI to connect // Atlas (same dotenv guide)
+connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
@@ -15,4 +15,4 @@ mongoose.connect(process.env.MONGODB_URL, {
 });
 
 // Export connection
-module.exports = mongoose.connection;
+module.exports = connection;
