@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true })); // to Parse URL data from any f
 //app.use(routes);
 
 // Server setup
-db.once('open', () => {
+db.once('open', () => { // 'open' event before listening to PORT
   app.listen(PORT, () => {
     console.log(`API Server listening on ${PORT} 🚀`);
   });
