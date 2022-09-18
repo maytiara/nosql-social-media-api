@@ -15,7 +15,8 @@ const thoughtSchema = new Schema(
     username: {
       type: String,
       required: true,
-    }
+    },
+    reactions: [reactionSchema], //replies, array of nested docs
   },
   {
     timestamps: true,
@@ -26,6 +27,11 @@ const thoughtSchema = new Schema(
   },
 );
 
-const Thought = model('Thought', thoughtSchema);
+// Virtual property to call the reactionCount and retrieves the length of the reactions array (getter)
+userSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length;
+});
+
+const Thought = model('thought', thoughtSchema);
 
 module.exports = Thought;
