@@ -1,15 +1,31 @@
-const { Schema, model } = require('mongoose'); // this import the mongoose module | to use the Schema | create a model
+const { Schema, model } = require('mongoose'); // this import the mongoose module | to use the // Schema | create a model
 
-// Schema to create a User model (ref: mini-proj)
 const thoughtSchema = new Schema(
   {
-    toJSON: {
-      virtuals: true,
+    thoughtText: {
+      type: String,
+      required: true,
+      minLength: 1,
+      maxLength: 280, // must be between 1 and 280 characters
     },
-    id: false,
-  }
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    username: {
+      type: String,
+      required: true,
+    }
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      getters: true, // getter method to format the timestamp on query
+      virtuals: true
+    },
+  },
 );
 
-const Thought = model('thought', userSchema);
+const Thought = model('Thought', thoughtSchema);
 
 module.exports = Thought;
