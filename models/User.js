@@ -2,11 +2,11 @@ const { Schema, model } = require('mongoose'); // this import the mongoose modul
 const Thought = require('./Thought');
 const regex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/; // this regex pattern compatible for JS & Perl | RFC 5322
 
-const validateEmail = function(email) {
-  regex // using the global variable
-  return regex.test(email); // test(method) to match the string
-};
 
+//const validateEmail = (email) => {
+//  const regex 
+//  return regex.test(email); // test(method) to match the string
+//};
 
 // Schema to create a User model (ref: mini-proj)
 const userSchema = new Schema(
@@ -17,42 +17,58 @@ const userSchema = new Schema(
       unique: true,
       trim: true, // this will remove whitespace from start .. end only
       dropDups: true, // means MongoDB will "drop" any queries which try to create a record with a schema value that already exists in the database. (ref: stackoverflow)
+      minLength: 3,
     },
     email: {
-      type: String,
-      trim: true,
-      lowercase: true,
+      types: String,
+      validate: {
+        validator: function (email) {
+          return regex.test(email);
+        },
+        message: "Please fill a valid email address"
+      },
+      match: [/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/, "Please fill a valid email address"],
+      required: [true, "Email address is required"],
       unique: true,
-      required: 'Email address is required',
-      validate: [validateEmail, 'Please fill a valid email address'],
-      match: [regex, 'Please fill a valid email address'],
+      lowercase: true,
+      dropDups: true,
     },
-    thoughts: {
-      type: Schema.Types.ObjectId, // array of Id referencing to Thought (model)
-      ref: Thought, // model name
-    },
-    friends: {
-      type: Schema.Types.ObjectId, // array of Id referencing to User (model)
-      ref: 'User', // model name
-    },
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId, // array of Id     referencing to User (model)
+        ref: Thought, // model name
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId, // array of Id   referencing to User (model)
+        ref: 'User', // model name
+      },
+    ],
   },
   {
     toJSON: {
       virtuals: true,
     },
-    id: false,
-  }
+  },
 );
 
-const User = model('user', userSchema);
+// Virtual property to call the friendCount and retrieves the length of the friends array (getter)
+userSchema.virtual('friendCount').get(function () {
+  return this.friends.length;
+});
+
+// Initialise the User model
+const User = model('User', userSchema);
 
 // for testing purposes
-const user = new User ({
-  username: "  mdnd  ",
-  email: "testing",
-  thoughts: [],
-  friends: [],
-});
-console.log(user)
+// const user = new User ({
+//   username: "  mdnd  ",
+//   email: "test",
+//   thoughts: [],
+//   friends: [],
+// });
+// console.log(user);
+// user.save();
 
 module.exports = User;
