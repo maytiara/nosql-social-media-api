@@ -1,4 +1,27 @@
-const { Schema, model } = require('mongoose'); // this import the mongoose module | to use the // Schema | create a model
+const { Schema, model, Types } = require('mongoose'); // this import the mongoose module | to use the // Schema | create a model
+
+// reactionSchema, as a subdocument in the 'Thought' (model)
+const reactionSchema = new Schema (
+  {
+    reactionId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId(), // Default value is set to a new ObjectId
+    },
+    reactionBody: {
+      type: String,
+      required: true, // must fill the field
+      maxLength: 280,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  }
+);
 
 const thoughtSchema = new Schema(
   {
