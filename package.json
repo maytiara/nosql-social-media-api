@@ -13,10 +13,9 @@
   "dependencies": {
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
-    "mongoose": "^6.6.0"
+    "mongoose": "^6.0.13"
   },
   "devDependencies": {
-    "@types/mongoose": "^5.11.97",
     "nodemon": "^2.0.19"
   }
 }
