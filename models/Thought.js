@@ -21,8 +21,13 @@ const reactionSchema = new Schema (
       type: Date,
       default: Date.now,
     },
-    _id : false, //to stop mongoose to create an _id for the subdocument
   },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false, //to stop mongoose to create an _id for the subdocument
+  }
 );
 
 const thoughtSchema = new Schema(
@@ -44,11 +49,11 @@ const thoughtSchema = new Schema(
     reactions: [reactionSchema], //replies, array of nested docs
   },
   {
-    timestamps: true,
     toJSON: {
       getters: true, // getter method to format the timestamp on query
       virtuals: true
     },
+    id: false,
   },
 );
 
