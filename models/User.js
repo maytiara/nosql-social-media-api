@@ -2,12 +2,6 @@ const { Schema, model } = require('mongoose'); // this import the mongoose modul
 const Thought = require('./Thought');
 const regex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/; // this regex pattern compatible for JS & Perl | RFC 5322
 
-
-//const validateEmail = (email) => {
-//  const regex 
-//  return regex.test(email); // test(method) to match the string
-//};
-
 // Schema to create a User model (ref: mini-proj)
 const userSchema = new Schema(
   {
@@ -20,18 +14,17 @@ const userSchema = new Schema(
       minLength: 3,
     },
     email: {
-      types: String,
-      validate: {
-        validator: function (email) {
-          return regex.test(email);
+      type: String,
+      trim: true, //required
+      lowercase: true,
+      unique: true,
+      validate: { // Valid schema validator
+        validator: function(v) {
+            return regex.test(v);
         },
         message: "Please fill a valid email address"
       },
-      match: [/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/, "Please fill a valid email address"],
-      required: [true, "Email address is required"],
-      unique: true,
-      lowercase: true,
-      dropDups: true,
+      required: [true, "Email address is required"] // required
     },
     thoughts: [
       {
@@ -42,7 +35,7 @@ const userSchema = new Schema(
     friends: [
       {
         type: Schema.Types.ObjectId, // array of Id   referencing to User (model)
-        ref: 'User', // model name
+        ref: 'user', // model name
       },
     ],
   },
@@ -50,6 +43,7 @@ const userSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
+    id: false,
   },
 );
 
@@ -59,6 +53,6 @@ userSchema.virtual('friendCount').get(function () {
 });
 
 // Initialise the User model
-const User = model('User', userSchema);
+const User = model('user', userSchema);
 
 module.exports = User;
