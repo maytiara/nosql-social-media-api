@@ -21,7 +21,8 @@ const reactionSchema = new Schema (
       type: Date,
       default: Date.now,
     },
-  }
+    _id : false, //to stop mongoose to create an _id for the subdocument
+  },
 );
 
 const thoughtSchema = new Schema(
