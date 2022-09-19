@@ -3,7 +3,7 @@ const express = require('express'); // express.js
 const routes = require('./routes/api'); // API endpoints
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Express middleware
 app.use(express.json());
