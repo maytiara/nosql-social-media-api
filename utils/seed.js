@@ -16,6 +16,11 @@ connection.once('open', async () => {
   await Thought.deleteMany({});
 
   
+  // Wait for the users to be inserted into the database
+  await User.collection.insertMany(seedUsers);
+  await Thought.collection.insertMany(seedReactions, seedThoughts);
 
+  console.timeEnd('seeding complete 🌱');
+  connection.close();
 
-}
+});
