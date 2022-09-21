@@ -2,7 +2,7 @@ const connection = require('../config/connection');
 const { User, Thought } = require('../models'); 
 const {
   seedUsers,
-  seedThoughts,
+  seedThoughts
 } = require('./data');
 
 // Start the seeding runtime timer
