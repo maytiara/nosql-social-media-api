@@ -11,7 +11,13 @@ const {
 
 // /api/thoughts
 router.route('/')
-      .get('')
+      .get(getThoughts)
+      .get(getSingleThought)
+      .post(addThought)
+      .put(updateThought)
+      .delete(deleteThought)
+      .post(addThoughtReaction)
+      .delete(removeThoughtReaction)
 
 // /api/thoughts/:thoughtId/reactions
 
