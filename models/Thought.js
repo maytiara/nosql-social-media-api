@@ -54,7 +54,7 @@ const thoughtSchema = new Schema(
       virtuals: true
     },
     id: false,
-    timestamps: true,
+    timestamps: true, // to create updatedAt:
   },
 );
 
