@@ -11,7 +11,6 @@ const userSchema = new Schema(
       unique: true,
       trim: true, // this will remove whitespace from start .. end only
       dropDups: true, // means MongoDB will "drop" any queries which try to create a record with a schema value that already exists in the database. (ref: stackoverflow)
-      minLength: 3,
     },
     email: {
       type: String,
