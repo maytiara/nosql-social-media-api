@@ -15,11 +15,11 @@ router.route('/')
       .get(getSingleThought)
       .post(addThought)
       .put(updateThought)
-      .delete(deleteThought)
-      .post(addThoughtReaction)
-      .delete(removeThoughtReaction)
+      .delete(deleteThought);
 
 // /api/thoughts/:thoughtId/reactions
-
+router.route('/:thoughtId/reactions')
+      .post(addThoughtReaction)
+      .delete(removeThoughtReaction);
 
 module.exports = router;
