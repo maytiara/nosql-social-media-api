@@ -1,16 +1,8 @@
-const User = require('../models/User');
 const router = require('express').Router();
+const userRoutes = require('./postRoutes');
+const thoughtRoutes = require('./tagRoutes');
 
-router.get('/users', (req,res) => {
-
-  // Grab all the users > and populate thought(fieldname) & friend(fieldname) data
-  User.find({})
-  .populate('thoughts') //fieldname
-  .populate('friends') //fieldname
-  .then((users) => {
-    res.json(users);
-  })
-})
-
+router.use('/api/users', userRoutes);
+router.use('/api/thoughts', thoughtRoutes);
 
 module.exports = router;
