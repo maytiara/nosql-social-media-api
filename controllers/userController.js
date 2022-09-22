@@ -30,14 +30,18 @@ module.exports = {
 			{ _id: req.params.usersId },
 			{ $addToSet: { users: req.body }}, // this operator replaces the value of the field
 			// { $set: req.body },
-			{ runValidators: true, new: true } // turn on the validators in models
+			{ upsert: true, new: true } // it updated the new insert value
 		).then((users) => {
 			res.json(users);
 		});
 	},
 	// remove user by _id
 	deleteUser(req, res) {
-		User.findOneAndDelete({ _id: req.params.userId }).then((users) => {
+		User.findByIdAndUpdate(
+			{ _id: req.params.usersId },
+			{ $pullAll: { _id: [ req.params.usersId ]}}, // this operator deletes the value of the field
+			{ safe: true, upsert: true } // 
+		).then((users) => {
 			res.json(users);
 		});
 	},
