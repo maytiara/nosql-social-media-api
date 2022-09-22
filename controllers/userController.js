@@ -11,7 +11,7 @@ module.exports = {
 	// get a single user by _id /api/users/ObjectId
 	getSingleUser(req, res) {
 		// the requested route parameter, calling the collection ID
-		User.findOne({ users: req.params.userId }) //check this added.users.$
+		User.findOne({ _id: req.params.userId }) //check this added.users.$
 			.populate({ path: "thoughts", select: "-__v" }) //fieldname & __v: (versionKey) || the internal revision of the document
 			.populate({ path: "friends", select: "-__v" })
 			.then((users) => {
@@ -27,10 +27,10 @@ module.exports = {
 	// update a user by _id
 	updateUser(req, res) {
 		User.findOneAndUpdate(
-			{ users: req.params.userId },
-			{ $addToSet: { ":userId": req.body }}, // this operator replaces the value of the field
+			{ _id: req.params.usersId },
+			{ $addToSet: { users: req.body }}, // this operator replaces the value of the field
+			// { $set: req.body },
 			{ runValidators: true, new: true } // turn on the validators in models
-			// { runValidators: true, new: true, upsert: true }
 		).then((users) => {
 			res.json(users);
 		});
