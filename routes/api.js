@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const userRoutes = require('./postRoutes');
-const thoughtRoutes = require('./tagRoutes');
+const userRoutes = require('./userRoutes');
+const thoughtRoutes = require('./thoughtRoutes');
 
 // this will include friends
 router.use('/api/users', userRoutes);
