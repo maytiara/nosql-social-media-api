@@ -37,21 +37,16 @@ module.exports = {
 	},
 	// remove user by _id
 	deleteUser(req, res) {
-		User.findByIdAndUpdate(
-			{ _id: req.params.usersId },
-			{ $pullAll: { _id: [ req.params.usersId ]}}, // this operator deletes the value of the field
-			{ safe: true, upsert: true } // 
+		User.findOneAndDelete(
+			{ users: req.params.usersId },
+			{ $pull: { users:  req.params.usersId }}, // this $pull operator deletes the value of the field
 		).then((users) => {
 			res.json(users);
 		});
 	},
 };
 
-//  getUsers,
-//  getSingleUser, //populate
-//  createUser,
-//  updateUser,
-//  deleteUser,
+
 //  createFriend,
 //  removeFriend
 // getUsers(req,res) => {
