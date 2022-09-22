@@ -19,13 +19,22 @@ module.exports = {
 				res.json(users);
 			});
 	},
-  // create a new user
-  createUser(req, res) {
-    User.create(req.body)
-    .then((dbUserData) => {
-      res.json(dbUserData)
-    });
-  }
+	// create a new user
+	createUser(req, res) {
+		User.create(req.body).then((dbUserData) => {
+			res.json(dbUserData);
+		});
+	},
+	// update a user by _id
+	updateUser(req, res) {
+		User.findOneAndUpdate(
+			{ _id: req.params.userId },
+			{ $set: req.body }, // this operator replaces the value of the field
+			{ runValidators: true, new: true } // turn on the validators in models
+		).then((users) => {
+			res.json(users);
+		});
+	},
 };
 
 //  getUsers,
