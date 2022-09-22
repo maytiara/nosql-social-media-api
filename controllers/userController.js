@@ -3,10 +3,9 @@ const User = require("../models/User");
 module.exports = {
 	//  get all users
 	getUsers(req, res) {
-		User.find({})
-			.then((users) => {
-				res.json(users);
-			});
+		User.find({}).then((users) => {
+			res.json(users);
+		});
 	},
 	// get a single user by _id /api/users/ObjectId
 	getSingleUser(req, res) {
@@ -28,8 +27,7 @@ module.exports = {
 	updateUser(req, res) {
 		User.findOneAndUpdate(
 			{ _id: req.params.usersId },
-			{ $addToSet: { users: req.body }}, // this operator replaces the value of the field
-			// { $set: req.body },
+			{ $addToSet: { users: req.body } }, // this operator replaces the value of the field
 			{ upsert: true, new: true } // it updated the new insert value
 		).then((users) => {
 			res.json(users);
@@ -39,23 +37,30 @@ module.exports = {
 	deleteUser(req, res) {
 		User.findOneAndDelete(
 			{ users: req.params.usersId },
-			{ $pull: { users:  req.params.usersId }}, // this $pull operator deletes the value of the field
+			{ $pull: { users: req.params.usersId } } // this $pull operator deletes the value of the field
 		).then((users) => {
 			res.json(users);
 		});
 	},
 };
 
-
 //  createFriend,
 //  removeFriend
 // getUsers(req,res) => {
 //
-//   // Grab all the users > and populate thought// (fieldname) & end// (fieldname) data
-//   User.find({})
-//   .populate('thoughts') //fieldname
-//   .populate('friends') //fieldname
-//   .then((users) => {
-//     res.json(users);
-//   })
-// }
+
+// to POST FRIEND?
+// createUser(req, res) {
+// 	User.create(req.body)
+// 		.then((users) => {
+// 			return friends.findOneAndUpdate (
+// 				{ _id: req.body.userId },
+// 				{ $addToSet: { users: friendCount._id}},
+// 				{ new: true }
+// 			);
+// 		//dbUserData
+// 	}).then((users) => {
+// 		res.json(users);
+// 	})
+
+
