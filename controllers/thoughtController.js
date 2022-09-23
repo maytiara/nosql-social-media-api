@@ -33,4 +33,16 @@ module.exports = {
 				res.json(thoughts);
 			});
 	},
+
+	// Update a thought by its _id
+	updateThought(req, res) {
+    Thought.findOneAndUpdate( // it matches the filter from the document body
+      { _id: req.params.thoughtsId },
+      { $set: req.body }, // this replace a specific field using the new value
+      { runValidators: true, new: true } // this works for nested fields to validate the required properties
+    )
+		.then((thoughts) => { // promise wrapper
+			res.json(thoughts);
+		});
+	}
 };
