@@ -25,7 +25,7 @@ module.exports = {
 			.then((thoughts) => {
 				return User.findOneAndUpdate(
 					// this push the data of thoughts in users collection
-					{ _id: req.body.userId },
+					{ _id: req.body.userId }, //filter
 					{ $addToSet: { thoughts: thoughts._id } }, // this operator replaces the value of the field
 					{ upsert: true, new: true } // it updated the new insert value
 				);
@@ -39,7 +39,7 @@ module.exports = {
 	updateThought(req, res) {
 		Thought.findOneAndUpdate(
 			// it matches the filter from the document body
-			{ _id: req.params.thoughtsId },
+			{ _id: req.params.thoughtsId }, //filter
 			{ $set: req.body }, // this replace a specific field using the new value
 			{ runValidators: true, new: true } // this works for nested fields to validate the required properties
 		).then((thoughts) => {
@@ -50,7 +50,8 @@ module.exports = {
 
 	// remove a thought by its _id
 	deleteThought(req, res) {
-		Thought.findOneAndRemove({ _id: req.params.thoughtsId }).then((thoughts) => {
+		Thought.findOneAndRemove({ _id: req.params.thoughtsId })
+			.then((thoughts) => { //filter
 			if (!thoughts) { // 1st condition | if thoughtsId = false
 				res.status(404).json({ message: "Please try again!" }); // it will returns 404
 			} else if (thoughts) { // 2nd condition | thoughtsId = true
@@ -63,4 +64,9 @@ module.exports = {
 			}
 		});
 	},
+
+	// create reaction to stored in reactions arrays nested in Thoughts array field
+	addThoughtReaction(req, res) {
+		Thought.findOneAndUpdate()
+	}
 };
