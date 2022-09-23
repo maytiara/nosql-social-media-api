@@ -1,5 +1,5 @@
-const Thought = require('../models/Thought');
-const User = require('../models/User');
+const Thought = require("../models/Thought");
+const User = require("../models/User");
 
 module.exports = {
 	//  get all thoughts
@@ -23,7 +23,8 @@ module.exports = {
 	addThought(req, res) {
 		Thought.create(req.body)
 			.then((thoughts) => {
-				return User.findOneAndUpdate( // this push the data of thoughts in users collection
+				return User.findOneAndUpdate(
+					// this push the data of thoughts in users collection
 					{ _id: req.body.userId },
 					{ $addToSet: { thoughts: thoughts._id } }, // this operator replaces the value of the field
 					{ upsert: true, new: true } // it updated the new insert value
@@ -36,13 +37,30 @@ module.exports = {
 
 	// Update a thought by its _id
 	updateThought(req, res) {
-    Thought.findOneAndUpdate( // it matches the filter from the document body
-      { _id: req.params.thoughtsId },
-      { $set: req.body }, // this replace a specific field using the new value
-      { runValidators: true, new: true } // this works for nested fields to validate the required properties
-    )
-		.then((thoughts) => { // promise wrapper
+		Thought.findOneAndUpdate(
+			// it matches the filter from the document body
+			{ _id: req.params.thoughtsId },
+			{ $set: req.body }, // this replace a specific field using the new value
+			{ runValidators: true, new: true } // this works for nested fields to validate the required properties
+		).then((thoughts) => {
+			// promise wrapper
 			res.json(thoughts);
 		});
-	}
+	},
+
+	// remove a thought by its _id
+	deleteThought(req, res) {
+		Thought.findOneAndRemove({ _id: req.params.thoughtsId }).then((thoughts) => {
+			if (!thoughts) { // 1st condition | if thoughtsId = false
+				res.status(404).json({ message: "Please try again!" }); // it will returns 404
+			} else if (thoughts) { // 2nd condition | thoughtsId = true
+				User.findOneAndUpdate( // this will delete the user ObjectId || Need to clarify about this statement
+					{ thoughts: req.params.thoughtsId },
+					{ $pull: { thoughts: req.params.thoughtsId } },
+					{ new: true }
+				).then((thoughts) => { // promise wrapper
+					res.json(thoughts)});
+			}
+		});
+	},
 };
