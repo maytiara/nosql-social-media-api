@@ -31,12 +31,7 @@ const userSchema = new Schema(
         ref: Thought, // model name
       },
     ],
-    friends: [
-      {
-        type: Schema.Types.ObjectId, // array of Id   referencing to User (model)
-        ref: 'user', // model name
-      },
-    ],
+    friends: [ this ], // self referencing the parent _id
   },
   {
     toJSON: {
