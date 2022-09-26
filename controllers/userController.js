@@ -11,8 +11,9 @@ module.exports = {
 	getSingleUser(req, res) {
 		// the requested route parameter, calling the collection ID
 		User.findOne({ _id: req.params.userId }) //check this added.users.$
-			.populate({ path: "thoughts", select: "-__v" }) //fieldname & __v: (versionKey) || the internal revision of the document
-			.populate({ path: "friends", select: "-__v" })
+			.populate({ path: "thoughts" }) //fieldname 
+			.populate({ path: "friends" })
+			.populate({ path: "friendCount" })
 			.then((users) => {
 				res.json(users);
 			});
