@@ -1,3 +1,4 @@
+const Thought = require("../models/Thought");
 const User = require("../models/User");
 const friend = require("../models/User");
 
@@ -38,14 +39,20 @@ module.exports = {
 			res.json(users);
 		});
 	},
+
 	// remove user by _id
 	deleteUser(req, res) {
 		User.findOneAndDelete(
-			{ users: req.params.usersId }, //filter
-			{ $pull: { users: req.params.usersId } } // this $pull operator deletes the value of the field
-		).then((users) => {
-			res.json(users);
-		});
+			{ users: req.body.usersId }) //filter
+			.then((users) => {
+				if (!users) {
+					res.status(404).json({ message: "ID not found! Please try again!" }); // it will returns 404
+			} else if (users) {
+				Thought.deleteMany ({_id: {$in: users.thoughts}})
+				}
+			}).then(() => {
+				res.json({ message: 'Good Job! No turning back' });
+			});
 	},
 
 	// create new friend to user's friendlist
