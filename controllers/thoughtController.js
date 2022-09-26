@@ -73,7 +73,7 @@ module.exports = {
 	// get reactions from the parent Thoughts field
 	getReactions(req, res) {
 		reactionSchema
-			.find({})
+			.find({reactions: req.params.reactionId})
 			.populate("reactions")
 			.then((thoughts) => {
 				res.json(thoughts);
