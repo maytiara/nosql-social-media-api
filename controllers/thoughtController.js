@@ -1,5 +1,6 @@
 const Thought = require("../models/Thought");
 const User = require("../models/User");
+const reactionSchema = require("../models/Thought");
 
 module.exports = {
 	//  get all thoughts
@@ -13,9 +14,8 @@ module.exports = {
 	getSingleThought(req, res) {
 		// the requested route parameter, calling the collection ID
 		Thought.findOne({ _id: req.params.thoughtsId }) //finding the thoughts:ObjectId
-			.select("-__v") //fieldname & __v: (versionKey) || the internal revision of the document
-			.then((dbThoughtdata) => {
-				res.json(dbThoughtdata);
+			.then((thoughts) => {
+				res.json(thoughts);
 			});
 	},
 
@@ -50,23 +50,45 @@ module.exports = {
 
 	// remove a thought by its _id
 	deleteThought(req, res) {
-		Thought.findOneAndRemove({ _id: req.params.thoughtsId })
-			.then((thoughts) => { //filter
-			if (!thoughts) { // 1st condition | if thoughtsId = false
+		Thought.findOneAndRemove({ _id: req.params.thoughtsId }).then((thoughts) => {
+			//filter
+			if (!thoughts) {
+				// 1st condition | if thoughtsId = false
 				res.status(404).json({ message: "Please try again!" }); // it will returns 404
-			} else if (thoughts) { // 2nd condition | thoughtsId = true
-				User.findOneAndUpdate( // this will delete the user ObjectId || Need to clarify about this statement
+			} else if (thoughts) {
+				// 2nd condition | thoughtsId = true
+				User.findOneAndUpdate(
+					// this will delete the user ObjectId || Need to clarify about this statement
 					{ thoughts: req.params.thoughtsId },
 					{ $pull: { thoughts: req.params.thoughtsId } },
 					{ new: true }
-				).then((thoughts) => { // promise wrapper
-					res.json(thoughts)});
+				).then((thoughts) => {
+					// promise wrapper
+					res.json(thoughts);
+				});
 			}
 		});
 	},
 
+	// get reactions from the parent Thoughts field
+	getReactions(req, res) {
+		reactionSchema
+			.find({})
+			.populate("reactions")
+			.then((thoughts) => {
+				res.json(thoughts);
+			});
+	},
+
 	// create reaction to stored in reactions arrays nested in Thoughts array field
-	addThoughtReaction(req, res) {
-		Thought.findOneAndUpdate()
-	}
+	// pull and remove a reaction by the reactionId value
+	// insomnia: unable to delete //--
+	removeThoughtReaction(req, res) {
+		Thought.findOneAndDelete(
+			{ users: req.params.usersId }, //filter
+			{ $pull: { users: req.params.usersId } } // this $pull operator deletes the value of the field
+		).then((users) => {
+			res.json(users);
+		});
+	},
 };
