@@ -1,19 +1,23 @@
 const User = require("../models/User");
+const friend = require("../models/User");
 
 module.exports = {
 	//  get all users
 	getUsers(req, res) {
-		User.find({}).then((users) => {
-			res.json(users);
-		});
+		User.find({})
+			.populate("thoughts") //fieldname
+			.populate("friends") //fieldname
+			.then((users) => {
+				res.json(users);
+			});
 	},
 	// get a single user by _id /api/users/ObjectId
 	getSingleUser(req, res) {
 		// the requested route parameter, calling the collection ID
 		User.findOne({ _id: req.params.userId }) //check this added.users.$
-			.populate({ path: "thoughts" }) //fieldname 
-			.populate({ path: "friends" })
-			.populate({ path: "friendCount" })
+			.populate("thoughts") //fieldname
+			.populate("friends") //fieldname
+			//.populate({ path: "friends", populate: { path: "friendCount" }})
 			.then((users) => {
 				res.json(users);
 			});
@@ -43,25 +47,16 @@ module.exports = {
 			res.json(users);
 		});
 	},
+
+	// create new friend to user's friendlist
+	// returns null and creates new users: ObjectId array //--
+	createFriend(req, res) {
+		User.findOneAndUpdate(
+			{ _id: req.params.usersId },
+			{ $push: { path: "friends", $set: { friends: req.params.usersId } } },
+			{ new: true }
+		).then((users) => {
+			res.json(users);
+		});
+	},
 };
-
-//  createFriend,
-//  removeFriend
-// getUsers(req,res) => {
-//
-
-// to POST FRIEND?
-// createUser(req, res) {
-// 	User.create(req.body)
-// 		.then((users) => {
-// 			return friends.findOneAndUpdate (
-// 				{ _id: req.body.userId },
-// 				{ $addToSet: { users: friendCount._id}},
-// 				{ new: true }
-// 			);
-// 		//dbUserData
-// 	}).then((users) => {
-// 		res.json(users);
-// 	})
-
-
