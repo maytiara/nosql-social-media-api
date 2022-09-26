@@ -1,23 +1,33 @@
 const seedUsers = [
   {
     username: 'Aaran',
-    email: 'first@email.com'
+    email: 'first@email.com',
+    thoughts: [],
+    friends: []
   },
   {
     username: 'Gillian',
-    email: 'second@email.com'
+    email: 'second@email.com',
+    thoughts: [],
+    friends: []
   },
   {
     username: 'Zubair',
-    email: 'third@email.com'
+    email: 'third@email.com',
+    thoughts: [],
+    friends: []
   },
   {
     username: 'Tamar',
-    email: 'fourth@email.com'
+    email: 'fourth@email.com',
+    thoughts: [],
+    friends: []
   },
   {
     username: 'AParker',
-    email: 'fifth@email.com'
+    email: 'fifth@email.com',
+    thoughts: [],
+    friends: []
   },
 ];
 
