@@ -84,12 +84,3 @@ module.exports = {
   seedUsers,
   seedThoughts,
 };
-
-// seedUsers.map(async (p, index) => {
-//   await p.save((err, result) => {
-//     if (index === seedUsers.length -1) {
-//       console.log('Seeding complete! 🌱');
-//       connection.disconnect();
-//     }
-//   })
-// })
