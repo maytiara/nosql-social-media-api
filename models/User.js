@@ -41,6 +41,7 @@ const userSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      versionKey: false, // set to false to remove version key -__v:
     },
     id: false,
   },
