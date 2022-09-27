@@ -1,5 +1,5 @@
 # NoSQL : Social Media API
-![mit-license](https://img.shields.io/badge/license-MIT-yellowgreen) ![npm-mysql2](https://img.shields.io/badge/npm-mysql2-blue) ![npm-mongoose](https://img.shields.io/badge/npm-mongoose-blue) ![npm-express](https://img.shields.io/badge/npm-express-blue) ![npm-dotenv](https://img.shields.io/badge/npm-dotenv-red) ![npm-nodemon](https://img.shields.io/badge/npm-nodemon-blue)
+![mit-license](https://img.shields.io/badge/license-MIT-yellowgreen) ![npm-mongoose](https://img.shields.io/badge/npm-mongoose-blue) ![npm-express](https://img.shields.io/badge/npm-express-blue) ![npm-dotenv](https://img.shields.io/badge/npm-dotenv-red) ![npm-nodemon](https://img.shields.io/badge/npm-nodemon-blue)
 
 ![m-e-n-app](public/media/men-logo.jpg)
 <br />
@@ -7,7 +7,7 @@
 
 ## Description
 
-**API routes for the social network application. Using MongoDB for NoSQL database associated with Mongoose v6.0.13 - npm package ODM library for MongoDB and Nodejs. Express.js for routing with different endpoints using "GET", "POST", "PUT" and "DELETE".**
+**API routes for the social network application. Using NoSQL database associated with Mongoose v6.0.13 - npm package ODM library for MongoDB and Nodejs. Express.js for routing with different endpoints using "GET", "POST", "PUT" and "DELETE".**
 
 
 [Walkthrough Video](https://vimeo.com/753962115)
